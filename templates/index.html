@@ -1,0 +1,74 @@
+<html>
+
+<head>
+  <title>Maze</title>
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+  <link rel="stylesheet"
+        type="text/css"
+        href="{{ url_for('static', filename='styles.css') }}">
+  <script defer
+          src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+</head>
+
+<body>
+
+  <div x-data="{rotation: 0}"
+       class="container">
+    <div class="controls">
+      <form x-data="{
+          algo: 'binary_tree',
+          scale: 10,
+          columns: 4,
+          rows: 4
+        }">
+        <label for="algo">Algorithm</label>
+        <select name="algo"
+                x-model="algo"
+                id="algo">
+          <option value="binary_tree">Binary Tree</option>
+          <option value="sidewinder">Sidewinder</option>
+        </select>
+        <label for="scale">Scale</label>
+        <input type="number"
+               name="scale"
+               id="scale"
+               x-model="scale">
+        <label for="columns">Columns</label>
+        <input type="number"
+               name="columns"
+               id="columns"
+               x-model="columns">
+        <label for="rows">Rows</label>
+        <input type="number"
+               name="rows"
+               id="rows"
+               x-model="rows">
+        <label for="rows">Rotation (degrees)</label>
+        <input type="range"
+               name="rotation"
+               id="rotation"
+               min="0"
+               max="360"
+               step="30"
+               x-model="rotation">
+        <button type="button"
+                @click="getMaze(algo, scale, columns, rows)">Generate Maze</button>
+      </form>
+    </div>
+    <div id="maze">
+      <div x-html="$store.data.maze"
+           :style="{transform: `rotate(${rotation}deg)`}"></div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+
+</html>
