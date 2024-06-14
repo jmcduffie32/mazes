@@ -1,5 +1,5 @@
-function getMaze(algo, scale, columns, rows) {
-  fetch('/maze?' + new URLSearchParams({ algo, scale, columns, rows }))
+function getMaze(params) {
+  fetch('/maze?' + new URLSearchParams(params))
     .then(response => response.text())
     .then(data => {
       Alpine.store('data').maze = data;
@@ -11,5 +11,5 @@ document.addEventListener('alpine:init', () => {
     maze: ''
   })
 
-  getMaze('binary_tree', 10, 4, 4)
+  getMaze({algo:'binary_tree', scale:10, rows:4, columns:4, seed:10100,showDistances:true})
 })

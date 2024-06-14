@@ -26,7 +26,10 @@
           algo: 'binary_tree',
           scale: 10,
           columns: 4,
-          rows: 4
+          rows: 4,
+          showDistances: true,
+          showSolution: false,
+          seed: 10100
         }">
         <label for="algo">Algorithm</label>
         <select name="algo"
@@ -50,6 +53,11 @@
                name="rows"
                id="rows"
                x-model="rows">
+        <label for="rows">Seed</label>
+        <input type="number"
+               name="seed"
+               id="seed"
+               x-model="seed">
         <label for="rows">Rotation (degrees)</label>
         <input type="range"
                name="rotation"
@@ -58,8 +66,12 @@
                max="360"
                step="30"
                x-model="rotation">
+        <label for="distance">Show Distances?</label>
+        <input type="checkbox" name="distance" id="distance" x-model="showDistances">
+        <label for="distance">Show Solution?</label>
+        <input type="checkbox" name="solution" id="solution" x-model="showSolution">
         <button type="button"
-                @click="getMaze(algo, scale, columns, rows)">Generate Maze</button>
+                @click="getMaze({algo, scale, columns, rows, showDistances, seed, showSolution})">Generate Maze</button>
       </form>
     </div>
     <div id="maze">

@@ -48,6 +48,9 @@ class Grid:
             for cell in row:
                 yield cell
 
+    def contents_of(self, cell):
+        return " "
+
     def __str__(self) -> str:
         output = "+" + "---+" * self.columns + "\n"
         for row in self.each_row():
@@ -55,7 +58,7 @@ class Grid:
             bottom = "+"
             for cell in row:
                 cell = cell or Cell(-1, -1)
-                body = "   "
+                body = f" {self.contents_of(cell)} "
                 east_boundary = " " if cell.is_linked(cell.east) else "|"
                 top += body + east_boundary
                 south_boundary = "   " if cell.is_linked(cell.south) else "---"
@@ -65,7 +68,7 @@ class Grid:
             output += bottom + "\n"
         return output
     
-    def to_svg(self, scale=1):
+    def to_svg(self, scale=1, show_distances=True, show_solution=True):
         dwg = sw.Drawing(
             filename="assets/maze.svg",
             size=(self.columns * 10 * scale, self.rows * 10 * scale),
@@ -76,6 +79,9 @@ class Grid:
             y1 = cell.row * 10 * scale
             x2 = (cell.column + 1) * 10 * scale
             y2 = (cell.row + 1) * 10 * scale
+
+            if show_distances:
+                dwg.add(dwg.text(self.contents_of(cell), insert=((x1 + x2)//2, (y1 + y2)//2), fill="blue"))
 
             if not cell.north:
                 dwg.add(dwg.line((x1, y1), (x2, y1), stroke=sw.rgb(0, 0, 0)))
@@ -88,6 +94,15 @@ class Grid:
 
             if not cell.is_linked(cell.south):
                 dwg.add(dwg.line((x1, y2), (x2, y2), stroke=sw.rgb(0, 0, 0)))
+
+        if show_solution:
+            prev_cell = None
+            for cell in sorted([cell for cell in self.each_cell() if self.contents_of(cell) != " "], key=self.contents_of):
+                x1 = cell.column * 10 * scale
+                y1 = cell.row * 10 * scale
+                if prev_cell is not None:
+                    dwg.add(dwg.line((x1 + 5 * scale, y1 + 5 * scale), (prev_cell.column * 10 * scale + 5 * scale, prev_cell.row * 10 * scale + 5 * scale), stroke=sw.rgb(0, 0, 255)))
+                prev_cell = cell
             
         return dwg.tostring()
         
