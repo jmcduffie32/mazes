@@ -50,6 +50,9 @@ class Grid:
 
     def contents_of(self, cell):
         return " "
+    
+    def background_color_for(self, cell):
+        return None
 
     def __str__(self) -> str:
         output = "+" + "---+" * self.columns + "\n"
@@ -59,6 +62,7 @@ class Grid:
             for cell in row:
                 cell = cell or Cell(-1, -1)
                 body = f" {self.contents_of(cell)} "
+                # body = "   "
                 east_boundary = " " if cell.is_linked(cell.east) else "|"
                 top += body + east_boundary
                 south_boundary = "   " if cell.is_linked(cell.south) else "---"
@@ -79,6 +83,9 @@ class Grid:
             y1 = cell.row * 10 * scale
             x2 = (cell.column + 1) * 10 * scale
             y2 = (cell.row + 1) * 10 * scale
+
+            if color := self.background_color_for(cell):
+                dwg.add(dwg.rect((x1, y1), (10 * scale, 10 * scale), fill=color))
 
             if show_distances:
                 dwg.add(dwg.text(self.contents_of(cell), insert=((x1 + x2)//2, (y1 + y2)//2), fill="blue"))

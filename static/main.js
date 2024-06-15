@@ -11,5 +11,5 @@ document.addEventListener('alpine:init', () => {
     maze: ''
   })
 
-  getMaze({algo:'binary_tree', scale:10, rows:4, columns:4, seed:10100,showDistances:true})
+  getMaze({algo:'binary_tree', scale:10, rows:4, columns:4, seed:10100,showDistances:true, startingCell:'0,0'})
 })

@@ -13,6 +13,19 @@ class Distances:
     @property
     def cells(self):
         return self._cells.keys()
+    
+    @property
+    def max(self):
+        max_distance = 0
+
+        max_cell = self.root
+
+        for cell, distance in self._cells.items():
+            if distance > max_distance:
+                max_cell = cell
+                max_distance = distance
+
+        return (max_cell, max_distance)
 
     def path_to(self, goal):
         current = goal

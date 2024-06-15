@@ -27,7 +27,9 @@
           scale: 10,
           columns: 4,
           rows: 4,
+          startingCell: '0,0',
           showDistances: true,
+          showColors: false,
           showSolution: false,
           seed: 10100
         }">
@@ -38,26 +40,38 @@
           <option value="binary_tree">Binary Tree</option>
           <option value="sidewinder">Sidewinder</option>
         </select>
+
         <label for="scale">Scale</label>
         <input type="number"
                name="scale"
                id="scale"
                x-model="scale">
+
         <label for="columns">Columns</label>
         <input type="number"
                name="columns"
                id="columns"
                x-model="columns">
+
         <label for="rows">Rows</label>
         <input type="number"
-               name="rows"
-               id="rows"
-               x-model="rows">
+               name="columns"
+               id="columns"
+               x-model="columns">
+
+        <label for="rows">Starting cell</label>
+        <input type="string"
+               name="startingCell"
+               id="startingCell"
+               placeholder="x,y"
+               x-model="startingCell">
+
         <label for="rows">Seed</label>
         <input type="number"
                name="seed"
                id="seed"
                x-model="seed">
+
         <label for="rows">Rotation (degrees)</label>
         <input type="range"
                name="rotation"
@@ -66,12 +80,18 @@
                max="360"
                step="30"
                x-model="rotation">
+
         <label for="distance">Show Distances?</label>
         <input type="checkbox" name="distance" id="distance" x-model="showDistances">
+
+        <label for="distance">Show Colors?</label>
+        <input type="checkbox" name="colors" id="colors" x-model="showColors">
+
         <label for="distance">Show Solution?</label>
         <input type="checkbox" name="solution" id="solution" x-model="showSolution">
+
         <button type="button"
-                @click="getMaze({algo, scale, columns, rows, showDistances, seed, showSolution})">Generate Maze</button>
+                @click="getMaze({algo, scale, columns, rows, showDistances, seed, showSolution, showColors, startingCell})">Generate Maze</button>
       </form>
     </div>
     <div id="maze">
