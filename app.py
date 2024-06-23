@@ -3,7 +3,7 @@ from flask import Flask, render_template, request
 from mazes.grid import Grid
 from mazes.colored_grid import ColoredGrid
 from mazes.distance_grid import DistanceGrid
-from mazes.algo import BinaryTree, Sidewinder
+from mazes.algo import BinaryTree, Sidewinder, AldousBroder, Wilsons
 
 app = Flask(__name__)
 
@@ -38,6 +38,13 @@ def maze():
             BinaryTree.on(grid)
         case 'sidewinder':
             Sidewinder.on(grid)
+        case 'aldous-broder':
+            AldousBroder.on(grid)
+        case 'wilsons':
+            Wilsons.on(grid)
+        case 'aldous-broder-wilsons':
+            AldousBroder.on(grid, steps=(grid.size() // 2))
+            Wilsons.on(grid)
     
     distances = start.distances()
 

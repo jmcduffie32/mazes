@@ -9,6 +9,7 @@ class Grid:
         self.columns = columns
         self.grid = self.prepare_grid()
         self.configure_cells()
+        self.unvisited = list(self.each_cell())
 
     def prepare_grid(self):
         return [
@@ -113,4 +114,9 @@ class Grid:
             
         return dwg.tostring()
         
+    def display_unvisited(self):
+        print("unvisited:")
+        for cell in self.unvisited:
+            print(cell)
+        print("+++++++++++")
 

@@ -10,6 +10,9 @@ class Cell:
         self.east = None
         self.west = None
 
+    def __str__(self) -> str:
+        return f"Cell at ({self.row}, {self.column})"
+
     def link(self, cell, bidirectional=True):
         self._links[cell] = True
         if bidirectional:
