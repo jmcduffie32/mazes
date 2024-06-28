@@ -1,11 +1,17 @@
+import logging
 import random
+import time
+
 from flask import Flask, render_template, request
 from mazes.grid import Grid
 from mazes.colored_grid import ColoredGrid
 from mazes.distance_grid import DistanceGrid
 from mazes.algo import BinaryTree, Sidewinder, AldousBroder, Wilsons
 
+logger = logging.getLogger(__name__)
+
 app = Flask(__name__)
+app.logger.setLevel(logging.INFO)
 
 @app.route('/')
 def home():
@@ -33,6 +39,7 @@ def maze():
     starting_cell = [int(coord) for coord in starting_cell.split(',')]
     start = grid.get_cell(starting_cell[0], starting_cell[1])
 
+    start_time = time.perf_counter()
     match algo:
         case 'binary_tree':
             BinaryTree.on(grid)
@@ -45,6 +52,8 @@ def maze():
         case 'aldous-broder-wilsons':
             AldousBroder.on(grid, steps=(grid.size() // 2))
             Wilsons.on(grid)
+    end_time = time.perf_counter()
+    logger.info(f"Generated maze in {end_time - start_time:.5f} seconds")
     
     distances = start.distances()
 
