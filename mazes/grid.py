@@ -19,6 +19,8 @@ class Grid:
 
     def configure_cells(self):
         for cell in self.each_cell():
+            if cell is None:
+                continue
             row, column = cell.row, cell.column
             cell.north = self.get_cell(row - 1, column)
             cell.south = self.get_cell(row + 1, column)
@@ -80,6 +82,7 @@ class Grid:
         )
 
         for cell in self.each_cell():
+            cell = cell or Cell(-1, -1)
             x1 = cell.column * 10 * scale
             y1 = cell.row * 10 * scale
             x2 = (cell.column + 1) * 10 * scale
